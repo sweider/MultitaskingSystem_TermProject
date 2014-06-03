@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration debug="false" xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender"> 
+        <param name="Encoding" value="Cp866"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} [%-5p][%c] [%t] - %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="TaskDispatcherAppender" class="org.apache.log4j.FileAppender">
+        <param name="file" value="log/dispatcher.out"/>
+        <param name="append" value="false" />
+        <param name="Encoding" value="Cp866"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} [%t] - %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="SchedullerAppender" class="org.apache.log4j.FileAppender">
+        <param name="file" value="log/scheduller.out"/>
+        <param name="append" value="false" />
+        <param name="Encoding" value="Cp866"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} [%t] - %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="CpuAppender" class="org.apache.log4j.FileAppender">
+        <param name="file" value="log/cpu.out"/>        
+        <param name="append" value="false" />
+        <param name="Encoding" value="Cp866"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} [%t] - %m%n" />
+        </layout>
+    </appender>
+
+    <!-- <appender name="TransactionQueueAppender" class="org.apache.log4j.FileAppender">
+        <param name="file" value="log/queue.out"/>        
+        <param name="append" value="false" />
+        <param name="Encoding" value="Cp866"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{DATE} [%-5p][%c] [%t] - %m%n" />
+        </layout>
+    </appender> -->
+<!-- 
+    <logger name="Launcher" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="ConsoleAppender" />
+    </logger> -->
+
+    <logger name="multitaskdinamicprioritydispatchingmodel.core.taskscheduller.MultiQueueAdaptivityTaskScheduller" additivity="false">
+        <level value="Trace" />
+        <appender-ref ref="SchedullerAppender" />
+    </logger>
+
+    <logger name="multitaskdinamicprioritydispatchingmodel.core.taskdispatcher.TaskDispatcher" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="TaskDispatcherAppender" />
+    </logger>
+
+    <logger name="multitaskdinamicprioritydispatchingmodel.core.cpuemulator.CpuEmulator" additivity="false">
+        <level value="TRACE" />
+        <appender-ref ref="CpuAppender" />
+    </logger>
+
+    <root>
+        <priority value="DEBUG"/>
+        <appender-ref ref="ConsoleAppender" />
+    </root>
+
+</log4j:configuration>

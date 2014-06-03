@@ -14,15 +14,13 @@ import multitaskdinamicprioritydispatchingmodel.core.system.ISystemTime;
 import multitaskdinamicprioritydispatchingmodel.core.system.SystemTime;
 import multitaskdinamicprioritydispatchingmodel.core.taskdispatcher.ComplexityToTimeTransformer;
 import multitaskdinamicprioritydispatchingmodel.core.taskdispatcher.DefaultComplexityWeightMapper;
-import multitaskdinamicprioritydispatchingmodel.core.taskdispatcher.IComplexityToTimeTransformer;
 import multitaskdinamicprioritydispatchingmodel.core.taskdispatcher.IComplexityWeightMapper;
-import multitaskdinamicprioritydispatchingmodel.core.taskdispatcher.ITaskDispatcher;
 import multitaskdinamicprioritydispatchingmodel.core.taskdispatcher.TaskDispatcher;
-import multitaskdinamicprioritydispatchingmodel.core.taskscheduller.ITaskScheduller;
 import multitaskdinamicprioritydispatchingmodel.core.taskscheduller.MultiQueueAdaptivityTaskScheduller;
 import multitaskdinamicprioritydispatchingmodel.core.usertask.IUserTaskFactory;
 import multitaskdinamicprioritydispatchingmodel.core.usertask.UserTaskFactory;
 import multitaskdinamicprioritydispatchingmodel.taskssender.TasksSenderFactory;
+import org.apache.log4j.xml.DOMConfigurator;
 
 /**
  *
@@ -35,6 +33,8 @@ public class Launcher {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws InterruptedException {
+        DOMConfigurator.configure("./log4j.xml");  
+        
         ICpuEmulator cpuEmulator = new CpuEmulator();
         ISystemTime systemTime = SystemTime.getInstance();                
         MultiQueueAdaptivityTaskScheduller scheduller = new MultiQueueAdaptivityTaskScheduller(systemTime, cpuEmulator);

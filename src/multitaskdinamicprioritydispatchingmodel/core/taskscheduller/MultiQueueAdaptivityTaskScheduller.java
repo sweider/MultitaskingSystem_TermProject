@@ -16,10 +16,13 @@ import multitaskdinamicprioritydispatchingmodel.core.executabletask.ITaskForMult
 import multitaskdinamicprioritydispatchingmodel.core.executabletask.TaskExecutingState;
 import multitaskdinamicprioritydispatchingmodel.core.system.ISystemTime;
 import multitaskdinamicprioritydispatchingmodel.core.taskdispatcher.AbstractQueuelikeEndlessWorkableUnit;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 
 public class MultiQueueAdaptivityTaskScheduller extends AbstractQueuelikeEndlessWorkableUnit implements ITaskScheduller, Runnable {
 
+    private static final Logger logger = LogManager.getLogger(MultiQueueAdaptivityTaskScheduller.class);
     private static final int QUEUE_LVLS = 5;
     private static final int FIRST_LVL_QUEUE_TIME_QUANT = 50;
     private static final float EACH_LVL_QUANT_MULTIPLIER = 1.5f;
@@ -44,11 +47,13 @@ public class MultiQueueAdaptivityTaskScheduller extends AbstractQueuelikeEndless
         this.systemTime = time;
         this.cpu = cpuEmulator;
         this.continueWorking = true;
+        logger.info("Scheduller created");
     }
     
     @Override
     public synchronized void scheduleTask(ExecutableTask task) {
         this.queueSystem.get(0).add(task);
+        logger.info("Added task#" + task.getId());
     }
 
     @Override
@@ -108,7 +113,8 @@ public class MultiQueueAdaptivityTaskScheduller extends AbstractQueuelikeEndless
 
     @Override
     public void sendStopWorkingSignal() {
-        super.sendStopWorkingSignal(); //To change body of generated methods, choose Tools | Templates.
+        super.sendStopWorkingSignal();
+        logger.warn("Getted stop working command");
     }
 
     
@@ -122,9 +128,13 @@ public class MultiQueueAdaptivityTaskScheduller extends AbstractQueuelikeEndless
     }
     
     private void executeTask(ITaskForMultiQueueSystem task){
+        logger.info("Start executing task#" + task.getId() + " from queue#" + this.currentQueueIndex);
         this.cpu.executeTask(task, getTimeQuantForCurrentQueue());
         switch (task.getExecutingState()) {
-            case FINISHED: task.setLastQueueLvl(this.currentQueueIndex); break;
+            case FINISHED: 
+                task.setLastQueueLvl(this.currentQueueIndex); 
+                logger.info("Task#" + task.getId() + " successfully finished!");
+                break;
             case NOT_FINISHED: this.addToNextLvlQueue(task); break;
             default: assert false : "Check the cpuEmulator implementation. U should not be here!";
         }
@@ -132,13 +142,19 @@ public class MultiQueueAdaptivityTaskScheduller extends AbstractQueuelikeEndless
     }
     
     private void addToNextLvlQueue(ITaskForMultiQueueSystem task){
-        if(this.isAtLastLvl()) { this.queueSystem.get(this.currentQueueIndex).add(task); }
-        else { this.queueSystem.get(this.currentQueueIndex + 1).add(task); }
+        if(this.isAtLastLvl()) { 
+            this.queueSystem.get(this.currentQueueIndex).add(task);
+            logger.info("Task#" + task.getId() + " pushed to the end of rounded queue");
+        }
+        else { 
+            this.queueSystem.get(this.currentQueueIndex + 1).add(task);
+            logger.info("Task#" + task.getId() + " pushed to the queue#" + (this.currentQueueIndex + 1));
+        }
     }
     
     private int getTimeQuantForCurrentQueue(){
         float result = MultiQueueAdaptivityTaskScheduller.FIRST_LVL_QUEUE_TIME_QUANT;
-        for(int i = 1; i <= MultiQueueAdaptivityTaskScheduller.QUEUE_LVLS; i++)
+        for(int i = 1; i <= this.currentQueueIndex; i++)
             result *= MultiQueueAdaptivityTaskScheduller.EACH_LVL_QUANT_MULTIPLIER;
         return (int) result;
     }

@@ -13,10 +13,13 @@ import multitaskdinamicprioritydispatchingmodel.core.executabletask.ExecutableTa
 import multitaskdinamicprioritydispatchingmodel.core.system.ISystemTime;
 import multitaskdinamicprioritydispatchingmodel.core.taskscheduller.ITaskScheduller;
 import multitaskdinamicprioritydispatchingmodel.core.usertask.IUserTask;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 
 public class TaskDispatcher extends AbstractQueuelikeEndlessWorkableUnit implements ITaskDispatcher, Runnable {
-    private static final int WAITING_TIME = 50;
+    private static final Logger logger  = LogManager.getLogger(TaskDispatcher.class);
+    private static final int WAITING_TIME = 10;
     private final ITaskScheduller taskScheduller;
     private final IUserToExecutableTaskTransformer taskTransformer;
     
@@ -30,11 +33,13 @@ public class TaskDispatcher extends AbstractQueuelikeEndlessWorkableUnit impleme
         this.userTasks = new ArrayList<>();
         List<IUserTask> accummulatedTasksList = new ArrayList<>();
         this.tasksBuffer = Collections.synchronizedList(accummulatedTasksList);
+        logger.info("Dispatcher created");
     }    
         
     @Override
     public synchronized void handleTask(IUserTask task) {
         this.tasksBuffer.add(task);
+        logger.info("Added task#" + task.getId());
     }
     
     @Override
@@ -42,6 +47,7 @@ public class TaskDispatcher extends AbstractQueuelikeEndlessWorkableUnit impleme
         for(IUserTask task : this.userTasks){
             ExecutableTask exTask = this.taskTransformer.transformTask(task);
             this.taskScheduller.scheduleTask(exTask);
+            logger.info("Task#" + exTask.getId() + " sent to scheduller");
         }
         this.userTasks.clear();
     }
