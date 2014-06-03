@@ -26,10 +26,11 @@ public class ComplexityToTimeTransformer implements IComplexityToTimeTransformer
     @Override
     public int getTime(IComplexityVector complexityVector) {
         int weight = 0;
-        for(Entry<ComplexityParam, Integer> entry : complexityVector.getValues().entrySet()){
+        for(Entry<ComplexityParam, Integer> entry : complexityVector.getValues()){
             weight += this.mapper.getWeight(entry.getKey()) * entry.getValue();
         }
-        return (int) (weight * ComplexityToTimeTransformer.WEIGHT_TO_TIME_COEFFICIENT);
+        int result = (int) (weight * ComplexityToTimeTransformer.WEIGHT_TO_TIME_COEFFICIENT) + 1;
+        return result;
     }
     
 }

@@ -30,7 +30,7 @@ public class UserTaskToExecutableTaskTransformer implements IUserToExecutableTas
     
     @Override
     public ExecutableTask transformTask(IUserTask userTask){
-        ExecutableTask.Builder etBuilder = new ExecutableTask.Builder();
+        ExecutableTask.Builder etBuilder = new ExecutableTask.Builder(userTask.getId());
         
         int neededTime = this.complexityTransformer.getTime(userTask.getComplexityVector());
         etBuilder.setNeededTime(neededTime);

@@ -13,4 +13,5 @@ package multitaskdinamicprioritydispatchingmodel.core.usertask;
 public interface IUserTask {
     IComplexityVector getComplexityVector();
     TaskUrgency getUrgency();
+    int getId();
 }

@@ -15,6 +15,6 @@ public interface IExecutableTask {
     int getRemainingTime();
     TaskExecutingState getExecutingState();
     void setExecutingState(TaskExecutingState state);
-
+    int getId();
     void substractExecutedTime(int time);
 }

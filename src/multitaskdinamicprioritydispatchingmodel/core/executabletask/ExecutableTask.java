@@ -14,10 +14,12 @@ public class ExecutableTask implements ITaskForMultiQueueSystem, ITaskForLlfOrEd
         private static final int NOT_SETTED = -1;
         private int neededTime;
         private int deadlineTime;
+        private final int id;
 
-        public Builder() {
+        public Builder(int id) {
             this.neededTime = NOT_SETTED;
             this.deadlineTime = NOT_SETTED;
+            this.id = id;
         }
 
         
@@ -32,7 +34,7 @@ public class ExecutableTask implements ITaskForMultiQueueSystem, ITaskForLlfOrEd
         public ExecutableTask build(){
             assert this.neededTime != NOT_SETTED : "needed time must be setted";
             assert this.deadlineTime != NOT_SETTED : "deadline time must be setted";
-            return new ExecutableTask(neededTime, neededTime, deadlineTime);
+            return new ExecutableTask(id,neededTime, neededTime, deadlineTime);
         }
     }
     //</editor-fold>
@@ -42,16 +44,23 @@ public class ExecutableTask implements ITaskForMultiQueueSystem, ITaskForLlfOrEd
     private final int deadlineTime;
     private TaskExecutingState executingState;
     private int lastQueueLvl;
+    private final int id;
 
-    private ExecutableTask(int neededTime, int remainingTime, int deadlineTime) {
+    private ExecutableTask(int id,int neededTime, int remainingTime, int deadlineTime) {
         this.neededTime = neededTime;
         this.remainingTime = remainingTime;
         this.deadlineTime = deadlineTime;
         this.executingState = TaskExecutingState.READY;
         this.lastQueueLvl = ITaskForMultiQueueSystem.NOT_EXECUTED_YET;
+        this.id = id;
     }
     
     //<editor-fold desc="IExecutableTask impl" defaultstate="collapsed">
+    @Override
+    public int getId() {
+        return id;
+    }
+    
     @Override
     public int getNeededTime() {
         return this.neededTime;

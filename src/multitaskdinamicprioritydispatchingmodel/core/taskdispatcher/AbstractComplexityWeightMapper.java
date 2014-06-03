@@ -18,6 +18,7 @@ abstract class AbstractComplexityWeightMapper {
     
     protected AbstractComplexityWeightMapper(){
         this.storage = new HashMap<>();
+        initializeMapper();
     }
     
     protected abstract void initializeMapper();
@@ -27,6 +28,8 @@ abstract class AbstractComplexityWeightMapper {
     }
     
     public int getWeight(ComplexityParam param){
+        assert this.storage != null : "Storage should not be null";
+        assert param != null : "Param should not b enull";
         return this.storage.get(param);
     }
 }

@@ -17,14 +17,13 @@ public class CpuEmulator implements ICpuEmulator {
     @Override
     public void executeTask(IExecutableTask task, int timeQuant) {
         try {
-            Thread.sleep(timeQuant);
+            Thread.sleep(0,timeQuant);
             task.substractExecutedTime(timeQuant);
             if(task.getRemainingTime() > 0) task.setExecutingState(TaskExecutingState.NOT_FINISHED);
             else task.setExecutingState(TaskExecutingState.FINISHED);
         } catch (InterruptedException ex) {
             Logger.getLogger(CpuEmulator.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
 

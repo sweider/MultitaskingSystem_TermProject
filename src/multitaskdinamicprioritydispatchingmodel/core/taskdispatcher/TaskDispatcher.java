@@ -43,6 +43,7 @@ public class TaskDispatcher extends AbstractQueuelikeEndlessWorkableUnit impleme
             ExecutableTask exTask = this.taskTransformer.transformTask(task);
             this.taskScheduller.scheduleTask(exTask);
         }
+        this.userTasks.clear();
     }
     
     @Override

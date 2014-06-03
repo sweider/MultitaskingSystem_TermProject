@@ -10,11 +10,12 @@ package multitaskdinamicprioritydispatchingmodel.core.usertask;
  *
  * @author alex
  */
-public enum ComplexityParam {
-    ADD,
-    MULT,
-    CONDITIONS,
-    LOOPS,
-    FILE_SYSTEM_USAGE,
-    GRAPHICAL_OUTPUT
+public interface IUserTaskFactory {
+
+    IUserTask getComplexTask();
+
+    IUserTask getNormalTask();
+
+    IUserTask getSimpleTask();
+    
 }

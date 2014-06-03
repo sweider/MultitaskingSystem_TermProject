@@ -6,7 +6,8 @@
 
 package multitaskdinamicprioritydispatchingmodel.core.usertask;
 
-import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  *
@@ -14,5 +15,5 @@ import java.util.HashMap;
  */
 public interface IComplexityVector {
     void addParam(ComplexityParam param, int value);
-    HashMap<ComplexityParam, Integer> getValues();
+    Set<Entry<ComplexityParam, Integer>> getValues();
 }

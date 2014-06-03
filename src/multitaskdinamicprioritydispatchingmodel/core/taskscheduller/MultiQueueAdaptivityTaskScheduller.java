@@ -12,7 +12,6 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import multitaskdinamicprioritydispatchingmodel.core.cpuemulator.ICpuEmulator;
 import multitaskdinamicprioritydispatchingmodel.core.executabletask.ExecutableTask;
-import multitaskdinamicprioritydispatchingmodel.core.executabletask.IExecutableTask;
 import multitaskdinamicprioritydispatchingmodel.core.executabletask.ITaskForMultiQueueSystem;
 import multitaskdinamicprioritydispatchingmodel.core.executabletask.TaskExecutingState;
 import multitaskdinamicprioritydispatchingmodel.core.system.ISystemTime;
@@ -49,7 +48,7 @@ public class MultiQueueAdaptivityTaskScheduller extends AbstractQueuelikeEndless
     
     @Override
     public synchronized void scheduleTask(ExecutableTask task) {
-        this.tasksBuffer.add(task);
+        this.queueSystem.get(0).add(task);
     }
 
     @Override
@@ -107,6 +106,13 @@ public class MultiQueueAdaptivityTaskScheduller extends AbstractQueuelikeEndless
         }
     }
 
+    @Override
+    public void sendStopWorkingSignal() {
+        super.sendStopWorkingSignal(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    
     private ITaskForMultiQueueSystem getTaskFromCurrentQueue() {
         return this.queueSystem.get(this.currentQueueIndex).poll();
     }
