@@ -14,6 +14,7 @@ import multitaskdinamicprioritydispatchingmodel.core.cpuemulator.ICpuEmulator;
 import multitaskdinamicprioritydispatchingmodel.core.executabletask.ExecutableTask;
 import multitaskdinamicprioritydispatchingmodel.core.executabletask.IExecutableTask;
 import multitaskdinamicprioritydispatchingmodel.core.executabletask.ITaskForMultiQueueSystem;
+import multitaskdinamicprioritydispatchingmodel.core.executabletask.TaskExecutingState;
 import multitaskdinamicprioritydispatchingmodel.core.system.ISystemTime;
 import multitaskdinamicprioritydispatchingmodel.core.taskdispatcher.AbstractQueuelikeEndlessWorkableUnit;
 
@@ -121,6 +122,7 @@ public class MultiQueueAdaptivityTaskScheduller extends AbstractQueuelikeEndless
             case NOT_FINISHED: this.addToNextLvlQueue(task); break;
             default: assert false : "Check the cpuEmulator implementation. U should not be here!";
         }
+        task.setExecutingState(TaskExecutingState.READY);
     }
     
     private void addToNextLvlQueue(ITaskForMultiQueueSystem task){

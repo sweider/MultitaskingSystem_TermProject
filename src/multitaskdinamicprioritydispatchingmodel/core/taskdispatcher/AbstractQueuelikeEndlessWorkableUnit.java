@@ -10,27 +10,12 @@ package multitaskdinamicprioritydispatchingmodel.core.taskdispatcher;
  *
  * @author alex
  */
-public abstract class AbstractQueuelikeEndlessWorkableUnit {
-    private boolean continueWorking;
+public abstract class AbstractQueuelikeEndlessWorkableUnit extends InterruptableEndlessWorker {
     private final int WAITING_TIME;
 
    protected AbstractQueuelikeEndlessWorkableUnit(int waitingTime) {
         this.continueWorking = true;
         this.WAITING_TIME = waitingTime;
-    }
-
-    public void sendStopWorkingSignal() {
-        this.continueWorking = false;
-    }
-
-    public final void run() {
-        while (true) {
-            if (!this.continueWorking) {
-                finishWorkWhenPossible();
-                return;
-            }
-            normalCicle();
-        }
     }
 
     protected void normalCicle(){

@@ -13,7 +13,6 @@ package multitaskdinamicprioritydispatchingmodel.core.executabletask;
 public interface IExecutableTask {
     int getNeededTime();
     int getRemainingTime();
-    int getDeadlineTime();
     TaskExecutingState getExecutingState();
     void setExecutingState(TaskExecutingState state);
 
