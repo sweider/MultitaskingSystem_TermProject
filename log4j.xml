@@ -56,6 +56,11 @@
         <appender-ref ref="SchedullerAppender" />
     </logger>
 
+    <logger name="multitaskdinamicprioritydispatchingmodel.core.taskscheduller.ShortestJobNextSheduller" additivity="false">
+        <level value="Trace" />
+        <appender-ref ref="SchedullerAppender" />
+    </logger>
+
     <logger name="multitaskdinamicprioritydispatchingmodel.core.taskdispatcher.TaskDispatcher" additivity="false">
         <level value="INFO" />
         <appender-ref ref="TaskDispatcherAppender" />
@@ -65,6 +70,8 @@
         <level value="TRACE" />
         <appender-ref ref="CpuAppender" />
     </logger>
+
+
 
     <root>
         <priority value="DEBUG"/>
